@@ -1,0 +1,12 @@
+<!-- templates/movies/movie-list.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>All Films</h1>
+    <!-- Your movie listing code here -->
+    {% for movie in movies %}
+      <!-- Movie cards similar to home-page.html -->
+    {% endfor %}
+  </div>
+{% endblock %}

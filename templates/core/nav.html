@@ -1,0 +1,45 @@
+{% load static %}
+<header>
+  <nav class="navbar">
+    <div class="container">
+      <!-- Logo + Home Link -->
+      <div class="logo">
+        <a href="{% url 'home-page' %}">
+          <img width="50px" src="{% static 'images/logo.png' %}" alt="FilmBlog Logo">
+        </a>
+        <a class="home" href="{% url 'home-page' %}">FilmBlog</a>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="nav-links">
+        <ul class="nav-group">
+          <!-- Films Link (Always Visible) -->
+          <li class="nav-item">
+            <a href="{% url 'movie-list' %}">Films</a>
+          </li>
+
+          {% if not request.user.is_authenticated %}
+            <!-- Register/Login (Unauthenticated) -->
+            <li class="nav-item">
+              <a href="{% url 'register' %}">Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'login' %}">Login</a>
+            </li>
+          {% else %}
+            <!-- Profile/Logout (Authenticated) -->
+            <li class="nav-item">
+              <a href="{% url 'profile-details' %}">Profile</a>
+            </li>
+            <li class="nav-item">
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+              </form>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
