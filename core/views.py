@@ -1,7 +1,11 @@
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
+from core.forms import ReviewForm
 from core.models import Review, Movie
 
 
@@ -33,7 +37,76 @@ class MovieDetailView(DetailView):
     model = Movie
     template_name = 'movies/movie-detail.html'
 
-class MovieListView(ListView):
-    model = Movie
-    template_name = 'movies/movie-list.html'  # Create this template
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['review_form'] = ReviewForm()
+        if self.request.user.is_authenticated:
+            # Get the user's review for this movie if it exists
+            context['user_review'] = Review.objects.filter(
+                movie=self.object,
+                author=self.request.user
+            ).first()  # Returns the review or None
+        return context
+
+class ReviewedMovieListView(ListView):
+    template_name = 'movies/movie-list.html'
     context_object_name = 'movies'
+
+    def get_queryset(self):
+        # Return movies the current user has reviewed
+        return Movie.objects.filter(
+            reviews__author=self.request.user
+        ).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Annotate each movie with the user's review
+        for movie in context['movies']:
+            movie.user_review = movie.reviews.filter(
+                author=self.request.user
+            ).first()
+        return context
+
+
+
+class AddReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'movies/movie-detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # Check if user already reviewed this movie
+        if Review.objects.filter(
+                movie_id=self.kwargs['pk'],
+                author=request.user
+        ).exists():
+            return HttpResponseForbidden("You've already reviewed this movie.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.movie_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('movie-detail', kwargs={'pk': self.kwargs['pk']})
+
+
+class ReviewEditView(UpdateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'movies/review-edit-page.html'
+
+    def get_queryset(self):
+        # Only allow editing own reviews
+        return Review.objects.filter(author=self.request.user)
+
+    def dispatch(self, request, *args, **kwargs):
+        review = self.get_object()
+        if review.author != request.user:
+            raise PermissionDenied("You can only edit your own reviews.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('movie-detail', kwargs={'pk': self.object.movie.id})
+

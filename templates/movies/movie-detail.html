@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- templates/movies/movie-detail.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+  <div class="movie-detail">
+    <img src="{{ movie.poster_url }}" class="poster" alt="Poster Image">
+    <h1>{{ movie.title }}</h1>
+    <p>Director: {{ movie.director }}</p>
+    <p>{{ movie.description }}</p>
 
-</body>
-</html>
+    <!-- Reviews Section -->
+    <div class="reviews">
+      <h2>Reviews</h2>
+      {% for review in movie.reviews.all %}
+        <div class="review">
+          <strong>{{ review.author.username }}</strong>: ★ {{ review.rating }}/10
+          <p>{{ review.content }}</p>
+        </div>
+      {% endfor %}
+
+      <!-- Add Review Form -->
+      {% if user.is_authenticated %}
+          {% if user_review %}
+            <a href="{% url 'review-edit' user_review.id %}" class="btn btn-warning">
+              ✏️ Edit Your Review
+            </a>
+          {% else %}
+            <form method="post" action="{% url 'add-review' movie.id %}">
+              {% csrf_token %}
+              {{ review_form.as_p }}
+              <button type="submit">Submit Review</button>
+            </form>
+          {% endif %}
+        {% endif %}
+    </div>
+  </div>
+{% endblock %}

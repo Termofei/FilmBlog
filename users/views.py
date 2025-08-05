@@ -1,6 +1,12 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import FormView
+
+from core.models import Review
 
 
 # Create your views here.
@@ -27,5 +33,13 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'accounts/login-page.html', {'form': form})
 
+@login_required
 def profile_view(request):
-    return render(request, 'accounts/profile-details-page.html', {'user': request.user})
+    user_reviews = Review.objects.filter(author=request.user)
+    return render(request, 'accounts/profile-details-page.html', {'reviews': user_reviews})
+
+
+# class CustomLoginView(LoginView):
+#     template_name = 'accounts/login-page.html'
+#     redirect_authenticated_user = True  # Redirects if already logged in
+#     success_url = reverse_lazy('home-page')  # Where to redirect after login

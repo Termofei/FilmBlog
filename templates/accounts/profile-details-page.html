@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% extends 'core/base.html' %}
+{% block content %}
+  <div class="profile">
+    <img src="{{ user.profile.avatar_url }}" class="avatar" alt="Avatar Image">
+    <h1>{{ user.username }}</h1>
+    <p>{{ user.profile.bio }}</p>
+
+    <h2>Your Reviews</h2>
+    {% for review in reviews %}
+      <div class="review">
+        <a href="{% url 'movie-detail' review.movie.id %}">{{ review.movie.title }}</a>:
+        ★ {{ review.rating }}/10
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
