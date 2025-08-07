@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
 
-</body>
-</html>
+{% block content %}
+<div class="auth-container">
+  <h2 class="text-center mb-4">Join FilmBlog</h2>
+  <form method="post" class="auth-form">
+    {% csrf_token %}
+
+    <!-- Manual form fields for better control -->
+    <div class="mb-3">
+      <label for="id_username" class="form-label">Username</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="text-danger">{{ form.username.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password1" class="form-label">Password</label>
+      {{ form.password1 }}
+      <div class="form-text">At least 8 characters.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password2" class="form-label">Confirm Password</label>
+      {{ form.password2 }}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+    <p class="mt-3 text-center">
+      Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </p>
+  </form>
+</div>
+{% endblock %}
