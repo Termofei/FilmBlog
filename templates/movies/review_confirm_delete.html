@@ -1,0 +1,15 @@
+<!-- templates/movies/review_confirm_delete.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+    <div class="container-edit-page">
+        <h2>Delete Review</h2>
+        <p>Are you sure you want to delete your review for "{{ object.movie.title }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-delete">Confirm Delete</button>
+                <a href="{% url 'review-edit' object.id %}" class="btn btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

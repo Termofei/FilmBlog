@@ -1,9 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from core.forms import ReviewForm
 from core.models import Review, Movie
@@ -110,3 +111,12 @@ class ReviewEditView(UpdateView):
     def get_success_url(self):
         return reverse('movie-detail', kwargs={'pk': self.object.movie.id})
 
+
+class ReviewDeleteView(LoginRequiredMixin, DeleteView):
+    model = Review
+    template_name = 'movies/review_confirm_delete.html'
+    success_url = reverse_lazy('movie-list')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
