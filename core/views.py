@@ -42,11 +42,10 @@ class MovieDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['review_form'] = ReviewForm()
         if self.request.user.is_authenticated:
-            # Get the user's review for this movie if it exists
             context['user_review'] = Review.objects.filter(
                 movie=self.object,
                 author=self.request.user
-            ).first()  # Returns the review or None
+            ).first()
         return context
 
 class ReviewedMovieListView(ListView):
@@ -54,14 +53,12 @@ class ReviewedMovieListView(ListView):
     context_object_name = 'movies'
 
     def get_queryset(self):
-        # Return movies the current user has reviewed
         return Movie.objects.filter(
             reviews__author=self.request.user
         ).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Annotate each movie with the user's review
         for movie in context['movies']:
             movie.user_review = movie.reviews.filter(
                 author=self.request.user
@@ -76,7 +73,6 @@ class AddReviewView(CreateView):
     template_name = 'movies/movie-detail.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # Check if user already reviewed this movie
         if Review.objects.filter(
                 movie_id=self.kwargs['pk'],
                 author=request.user
@@ -99,7 +95,6 @@ class ReviewEditView(UpdateView):
     template_name = 'movies/review-edit-page.html'
 
     def get_queryset(self):
-        # Only allow editing own reviews
         return Review.objects.filter(author=self.request.user)
 
     def dispatch(self, request, *args, **kwargs):

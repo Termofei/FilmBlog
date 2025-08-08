@@ -54,7 +54,7 @@
       <div class="movie-review-form mt-4">
         {% if user_review %}
           <a href="{% url 'review-edit' user_review.id %}"
-             class="btn3">
+             class="btn">
             ✏️ Edit Your Review
           </a>
         {% else %}
@@ -69,7 +69,7 @@
               <label class="form-label">Review</label>
               {{ review_form.content }}
             </div>
-            <button type="submit" class="btn3">Submit</button>
+            <button type="submit" class="btn">Submit</button>
           </form>
         {% endif %}
       </div>

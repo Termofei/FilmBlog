@@ -20,7 +20,7 @@
                 {{ movie.genres }}
               </p>
             </div>
-            <a href="{% url 'movie-detail' movie.id %}" class="btn3 btn-outline-primary">Full Details</a>
+            <a href="{% url 'movie-detail' movie.id %}" class="btn btn-outline-primary">Full Details</a>
           </div>
 
           <p class="mt-3">{{ movie.description|truncatewords:30 }}</p>
@@ -28,7 +28,7 @@
           <div class="user-review mt-4 p-3 bg-light rounded">
             <div class="d-flex justify-content-between">
               <h5>Your Review</h5>
-              <a href="{% url 'review-edit' movie.user_review.id %}" class="btn3 btn-sm btn-warning">Edit</a>
+              <a href="{% url 'review-edit' movie.user_review.id %}" class="btn btn-sm btn-warning">Edit</a>
             </div>
             <div class="rating">
               ★ {{ movie.user_review.rating }}/10
