@@ -25,3 +25,11 @@ Built with Django, it offers a clean interface and a smooth user experience for 
 | **Authentication** | Django Allauth |
 
 ---
+
+## Setup for New Users
+
+1. Clone this repository
+2. Install requirements: `pip install -r requirements.txt`
+3. Run migrations: `python manage.py migrate`
+4. Load sample movies: `python manage.py loaddata movies_fixture.json`
+5. Start server: `python manage.py runserver`

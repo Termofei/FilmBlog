@@ -67,7 +67,7 @@ class ReviewedMovieListView(ListView):
 
 
 
-class AddReviewView(CreateView):
+class AddReviewView(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
     template_name = 'movies/movie-detail.html'
@@ -89,7 +89,7 @@ class AddReviewView(CreateView):
         return reverse_lazy('movie-detail', kwargs={'pk': self.kwargs['pk']})
 
 
-class ReviewEditView(UpdateView):
+class ReviewEditView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = 'movies/review-edit-page.html'
