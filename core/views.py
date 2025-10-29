@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 
 from core.forms import ReviewForm
 from core.models import Review, Movie
@@ -122,6 +122,7 @@ class ReviewDeleteView(LoginRequiredMixin, DeleteView):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
