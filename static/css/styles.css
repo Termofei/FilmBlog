@@ -1,0 +1,7 @@
+/* styles.css */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css');
+@import './base.css';        /* Global styles (navbar, footer, etc.) */
+@import './auth.css';       /* Login/register forms */
+@import './movies.css';     /* Movie list/detail pages */
+@import './reviews.css';    /* Review forms/cards */
+@import './profile.css';    /* User profile */
