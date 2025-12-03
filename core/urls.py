@@ -16,5 +16,5 @@ urlpatterns = [
     path('movies/<int:pk>/review/', AddReviewView.as_view(), name='add-review'),
     path('reviews/<int:pk>/edit/', ReviewEditView.as_view(), name='review-edit'),
     path('review/<int:pk>/delete/', ReviewDeleteView.as_view(), name='review_delete'),
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
 ]
