@@ -16,6 +16,18 @@
     <!-- Details Column -->
     <div class="col-md-8">
       <h1 class="movie-detail-title">{{ movie.title }}</h1>
+        <div class="movie-rating">
+            {% if movie.average_rating %}
+                <div class="rating-badge">
+                    ⭐ {{ movie.average_rating|floatformat:"0" }}/10
+                </div>
+                <small>{{ movie.reviews.count }} review/s</small>
+            {% else %}
+                <div class="no-rating">
+                    No ratings yet
+                </div>
+            {% endif %}
+        </div>
       <div class="movie-meta">
         <p><strong>Director:</strong> {{ movie.director }}</p>
         <p><strong>Release Date:</strong> {{ movie.release_date|date:"F j, Y" }}</p>

@@ -60,13 +60,6 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.review-card {
-  background: white;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 
 /* static/css/movies.css */
 .searchbar {
@@ -88,7 +81,7 @@
 
 /* static/css/movies.css */
 .reviewed-movie-card {
-    background: white;
+    background: #d1d1d1;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 1.5rem;
@@ -131,4 +124,8 @@
   border: none;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-rating {
+  text-align: center;
 }
