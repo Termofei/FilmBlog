@@ -5,8 +5,8 @@ from core.views import HomePageView, MovieDetailView, AddReviewView, ReviewEditV
     ReviewDeleteView, MovieViewSet, ReviewViewSet
 
 router = DefaultRouter()
-router.register('movies', MovieViewSet)
-router.register('reviews', ReviewViewSet)  # ← Add this
+router.register('movies', MovieViewSet, basename='api-movies')
+router.register('reviews', ReviewViewSet, basename='api-reviews')
 
 
 urlpatterns = [
