@@ -39,11 +39,6 @@ body {
   transform: scale(1.05);
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-}
-
 .nav-group {
   display: flex;
   list-style: none;

@@ -22,6 +22,11 @@
           <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="movie-poster">
           <div class="movie-info">
             <h3>{{ movie.title }}</h3>
+              <div class="card-rating">
+                    {% if movie.average_rating %}
+                        ⭐ {{ movie.average_rating|floatformat:"0" }}/10
+                    {% endif %}
+                </div>
             <p>{{ movie.director }} • {{ movie.release_date|date:"Y" }}</p>
             <a href="{% url 'movie-detail' movie.id %}" class="btn btn-primary">Details</a>
           </div>

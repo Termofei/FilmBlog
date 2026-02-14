@@ -10,6 +10,7 @@ class Movie(models.Model):
     release_date = models.DateField(blank=True, null=True)
     poster_url = models.URLField(blank=True)  # TMDB/IMDb link
     description = models.TextField(blank=True)
+    average_rating = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.title
